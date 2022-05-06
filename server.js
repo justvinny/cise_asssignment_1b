@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const path = require("path");
 const connectDb = require("./database/db");
 const app = express();
 
@@ -14,9 +15,15 @@ app.use(morgan("combined"));
 connectDb();
 
 // Routes
-app.get("/", (request, response) => {
+app.get("/api", (request, response) => {
     response.send("<h1>Hello world!</h1>");
 });
+
+// Serve React Build
+app.use(express.static(path.join(__dirname, 'build')));
+app.get("*", (request, response) => {
+    response.sendFile(path.join(__dirname, "build", "index.html"));
+})
 
 // Start Server
 const PORT = process.env.PORT;
