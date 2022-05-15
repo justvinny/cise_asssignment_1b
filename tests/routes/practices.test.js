@@ -1,12 +1,12 @@
 const request = require("supertest");
 const assert = require("assert");
-const { serverUrl } = require("../../constants");
+const { SERVER_URL } = require("../../constants");
 const { mockPractices } = require("../../database/mockData");
 const { dropMongoDbProperties } = require("../../utilities");
 
 describe("Test GET /api/practices", () => {
     it("responds with json", (done) => {
-        request(serverUrl)
+        request(SERVER_URL)
             .get("/api/practices")
             .expect("Content-Type", /json/)
             .expect(200)
@@ -22,7 +22,7 @@ describe("Test GET /api/practices", () => {
 
 describe("Test POST /api/practices", () => {
     it("responds with json", (done) => {
-        request(serverUrl)
+        request(SERVER_URL)
             .post("/api/practices")
             .send({practice: "Testing Practice Type"})
             .set("Content-Type", "application/json")

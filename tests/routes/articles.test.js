@@ -1,12 +1,12 @@
 const request = require("supertest");
 const assert = require("assert");
-const { serverUrl } = require("../../constants");
+const { SERVER_URL } = require("../../constants");
 const { mockArticles } = require("../../database/mockData");
 const { dropMongoDbProperties } = require("../../utilities");
 
 describe("Test GET /api/articles", () => {
     it("responds with json", (done) => {
-        request(serverUrl)
+        request(SERVER_URL)
             .get("/api/articles")
             .expect("Content-Type", /json/)
             .expect(200)
@@ -33,7 +33,7 @@ describe("Test POST /api/articles", () => {
             "sepractice": "TDD"
         }
 
-        request(serverUrl)
+        request(SERVER_URL)
             .post("/api/articles")
             .send(testData)
             .set("Content-Type", "application/json")
