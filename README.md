@@ -12,7 +12,7 @@ Group Assignment using the MERN stack.
 3. Run `npm start` or `npm run dev` to start the express server. For API tests, please follow instructions from [Running API Tests](#running-api-tests).
 
 # Generate Production Build Script
-In the root directory, ōpen a bash terminal with super user/admin priveleges and run `.\build_script.sh`
+In the root directory, open a bash terminal with super user/admin priveleges and run `.\build_script.sh`
 
 # Running API Tests
 Note: Ensure to restart the server for each time you run the tests to clear the mongodo-memory-server.
