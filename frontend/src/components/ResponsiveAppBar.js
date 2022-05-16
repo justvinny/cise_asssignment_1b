@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
     AppBar,
     Box,
@@ -12,35 +12,60 @@ import {
 } from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { CurrentUrlContext } from "../context/CurrentUrlContext";
 
 const pages = [
+    { title: "Home", url: "/" },
     { title: "Propose Article", url: "propose-article" },
     { title: "View Articles", url: "view-article" },
 ];
 
 const ResponsiveAppBar = () => {
-    const [selectedPage, setSelectedPage] = useState(null);
+    // States
+    const [selectedPage, setSelectedPage] = useContext(CurrentUrlContext);
     const [anchorElNav, setAnchorElNav] = useState(null);
     const navigate = useNavigate();
 
+    /**
+     * Dynamic background color for active non-dropdown menu items.
+     * @param {*} url
+     * @returns
+     */
+    const highlightSelected = (url) => {
+        return url === selectedPage ? "#09f" : "";
+    };
+
+    /**
+     * Dynamic text-decoration for active dropdown menu links.
+     * @param {*} url
+     * @returns
+     */
+    const underlineSelected = (url) => {
+        return url === selectedPage ? "underline" : "";
+    };
+
+    /**
+     * Handler for clicking a menu link.
+     * @param {*} url
+     * @returns
+     */
     const openMenuLink = (url) => () => {
         handleCloseNavMenu();
         setSelectedPage(url);
         navigate(url);
     };
 
-    const highlightSelected = (url) => {
-        return url === selectedPage ? "#09f" : "";
-    };
-
-    const underlineSelected = (url) => {
-        return url === selectedPage ? "underline" : "";
-    };
-
+    /**
+     * Handller for opening dropdown menu.
+     * @param {*} event
+     */
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
 
+    /**
+     * Handler for closing dropdown menu.
+     */
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
@@ -103,7 +128,7 @@ const ResponsiveAppBar = () => {
                         >
                             {pages.map((page) => (
                                 <MenuItem
-                                    key={page}
+                                    key={`${page.title}-1`}
                                     onClick={openMenuLink(page.url)}
                                     sx={{
                                         textDecoration: underlineSelected(
@@ -157,7 +182,7 @@ const ResponsiveAppBar = () => {
                     >
                         {pages.map((page) => (
                             <Button
-                                key={page}
+                                key={`${page.title}-2`}
                                 onClick={openMenuLink(page.url)}
                                 sx={{
                                     bgcolor: highlightSelected(page.url),
