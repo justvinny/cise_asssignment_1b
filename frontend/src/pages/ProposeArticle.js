@@ -131,6 +131,7 @@ const ProposeArticle = () => {
                         marginBottom: "12px",
                     },
                 }}
+                data-testid="propose-article-form"
             >
                 <Typography
                     variant="h4"

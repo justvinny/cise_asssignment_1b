@@ -179,6 +179,7 @@ const ResponsiveAppBar = () => {
                                 justifyContent: "flex-end",
                             },
                         }}
+                        data-testid="menu-items"
                     >
                         {pages.map((page) => (
                             <Button
