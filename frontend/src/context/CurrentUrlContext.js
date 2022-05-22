@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-export const CurrentUrlContext = createContext({});
+export const CurrentUrlContext = createContext([]);
 
 export const CurrentUrlProvider = ({ children }) => {
     const [selectedPage, setSelectedPage] = useState("/");

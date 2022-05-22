@@ -193,6 +193,7 @@ const ProposeArticle = () => {
                     selected={selectedPractice}
                     setSelected={setSelectedPractice}
                     isLoading={isLoading}
+                    label="Select SE Practice"
                 />
                 <CustomButton
                     label="Submit Article"

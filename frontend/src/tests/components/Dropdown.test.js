@@ -15,6 +15,7 @@ describe("render dropdown menu.", () => {
                 selected={selectedPracticeMock}
                 setSelected={setSelectedPracticeMock}
                 isLoading={false}
+                label="SE Practice"
             />
         );
         const componentUnderTest = screen.getByTestId("dropdown-selector");
