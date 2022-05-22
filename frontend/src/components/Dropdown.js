@@ -8,7 +8,7 @@ const Dropdown = ({
 }) => {
     /**
      * Handle dropdown value selection change.
-     * @param {*} event 
+     * @param {*} event
      */
     const handleChange = (event) => {
         setSelectedPractice(event.target.value);
@@ -20,6 +20,7 @@ const Dropdown = ({
             <Select
                 labelId="se-practice-selector-label"
                 id="se-practice-selector"
+                data-testid="se-practice-selector"
                 label="SE Practice"
                 value={selectedPractice}
                 onChange={handleChange}

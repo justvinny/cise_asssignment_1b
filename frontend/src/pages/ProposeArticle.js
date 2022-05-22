@@ -56,19 +56,32 @@ const ProposeArticle = () => {
             sepractice: selectedPractice,
         };
         clearFields();
-        addArticle(article)
-            .then((data) => {
-                setFeedback(data.data.msg);
-                setIsFeedbackError(false);
-            })
-            .catch((error) => {
-                setFeedback(error);
-                setIsFeedbackError(true);
-            })
-            .finally(() => {
-                setFeedbackOpen(true);
-                setIsLoading(false);
-            });
+
+        if (
+            title !== "" &&
+            authors !== "" &&
+            source !== "" &&
+            publicationYear !== "" &&
+            doi !== ""
+        ) {
+            addArticle(article)
+                .then((data) => {
+                    setFeedback(data.data.msg);
+                    setIsFeedbackError(false);
+                })
+                .catch((error) => {
+                    setFeedback(error);
+                    setIsFeedbackError(true);
+                })
+                .finally(() => {
+                    setFeedbackOpen(true);
+                    setIsLoading(false);
+                });
+        } else {
+            setFeedback("All fields must not be empty");
+            setIsFeedbackError(true);
+            setFeedbackOpen(true);
+        }
     };
 
     /**
@@ -131,6 +144,7 @@ const ProposeArticle = () => {
                         marginBottom: "12px",
                     },
                 }}
+                data-testid="propose-article-form"
             >
                 <Typography
                     variant="h4"
