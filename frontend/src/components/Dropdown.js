@@ -1,28 +1,23 @@
 import { InputLabel, FormControl, MenuItem, Select } from "@mui/material";
 
-const Dropdown = ({
-    menuItems,
-    selectedPractice,
-    setSelectedPractice,
-    isLoading,
-}) => {
+const Dropdown = ({ menuItems, selected, setSelected, isLoading }) => {
     /**
      * Handle dropdown value selection change.
      * @param {*} event
      */
     const handleChange = (event) => {
-        setSelectedPractice(event.target.value);
+        setSelected(event.target.value);
     };
 
     return (
         <FormControl fullWidth>
-            <InputLabel id="se-practice-selector-label">SE Practice</InputLabel>
+            <InputLabel id="dropdown-selector-label">SE Practice</InputLabel>
             <Select
-                labelId="se-practice-selector-label"
-                id="se-practice-selector"
-                data-testid="se-practice-selector"
+                labelId="dropdown-selector-label"
+                id="dropdown-selector"
+                data-testid="dropdown-selector"
                 label="SE Practice"
-                value={selectedPractice}
+                value={selected}
                 onChange={handleChange}
                 disabled={isLoading}
             >

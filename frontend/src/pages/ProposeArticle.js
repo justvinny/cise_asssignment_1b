@@ -190,8 +190,8 @@ const ProposeArticle = () => {
                 />
                 <Dropdown
                     menuItems={practices}
-                    selectedPractice={selectedPractice}
-                    setSelectedPractice={setSelectedPractice}
+                    selected={selectedPractice}
+                    setSelected={setSelectedPractice}
                     isLoading={isLoading}
                 />
                 <CustomButton

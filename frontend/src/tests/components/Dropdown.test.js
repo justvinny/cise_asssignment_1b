@@ -12,12 +12,12 @@ describe("render dropdown menu.", () => {
         render(
             <Dropdown
                 menuItems={menuItemsMock}
-                selectedPractice={selectedPracticeMock}
-                setSelectedPractice={setSelectedPracticeMock}
+                selected={selectedPracticeMock}
+                setSelected={setSelectedPracticeMock}
                 isLoading={false}
             />
         );
-        const componentUnderTest = screen.getByTestId("se-practice-selector");
+        const componentUnderTest = screen.getByTestId("dropdown-selector");
         expect(componentUnderTest).toHaveTextContent("SE Practice");
     });
 
@@ -25,12 +25,12 @@ describe("render dropdown menu.", () => {
         render(
             <Dropdown
                 menuItems={menuItemsMock}
-                selectedPractice={selectedPracticeMock}
-                setSelectedPractice={setSelectedPracticeMock}
+                selected={selectedPracticeMock}
+                setSelected={setSelectedPracticeMock}
                 isLoading={false}
             />
         );
-        const componentUnderTest = screen.getByTestId("se-practice-selector");
+        const componentUnderTest = screen.getByTestId("dropdown-selector");
         expect(componentUnderTest).toHaveTextContent("TDD");
     });
 
@@ -38,12 +38,12 @@ describe("render dropdown menu.", () => {
         render(
             <Dropdown
                 menuItems={menuItemsMock}
-                selectedPractice={selectedPracticeMock}
-                setSelectedPractice={setSelectedPracticeMock}
+                selected={selectedPracticeMock}
+                setSelected={setSelectedPracticeMock}
                 isLoading={false}
             />
         );
-        const componentUnderTest = screen.getByTestId("se-practice-selector");
+        const componentUnderTest = screen.getByTestId("dropdown-selector");
         expect(componentUnderTest).not.toBeDisabled();
     });
 
@@ -51,13 +51,13 @@ describe("render dropdown menu.", () => {
         render(
             <Dropdown
                 menuItems={menuItemsMock}
-                selectedPractice={selectedPracticeMock}
-                setSelectedPractice={setSelectedPracticeMock}
+                selected={selectedPracticeMock}
+                setSelected={setSelectedPracticeMock}
                 isLoading={true}
             />
         );
         const componentUnderTest = within(
-            screen.getByTestId("se-practice-selector")
+            screen.getByTestId("dropdown-selector")
         ).getByRole("button", "TDD");
         expect(componentUnderTest).toHaveAttribute("aria-disabled", "true");
     });
