@@ -2,29 +2,38 @@ import { InputLabel, FormControl, MenuItem, Select } from "@mui/material";
 
 const Dropdown = ({
     menuItems,
-    selectedPractice,
-    setSelectedPractice,
+    selected,
+    setSelected,
     isLoading,
+    background,
+    width,
+    label,
 }) => {
     /**
      * Handle dropdown value selection change.
      * @param {*} event
      */
     const handleChange = (event) => {
-        setSelectedPractice(event.target.value);
+        setSelected(event.target.value);
     };
 
     return (
-        <FormControl fullWidth>
-            <InputLabel id="se-practice-selector-label">SE Practice</InputLabel>
+        <FormControl
+            fullWidth={width ? false : true}
+            size={width !== undefined ? "small" : "medium"}
+            sx={{ alignSelf: "center" }}
+        >
+            <InputLabel id="dropdown-selector-label">{label}</InputLabel>
             <Select
-                labelId="se-practice-selector-label"
-                id="se-practice-selector"
-                data-testid="se-practice-selector"
-                label="SE Practice"
-                value={selectedPractice}
+                labelId="dropdown-selector-label"
+                id="dropdown-selector"
+                data-testid="dropdown-selector"
+                label={label}
+                value={selected}
                 onChange={handleChange}
                 disabled={isLoading}
+                variant="outlined"
+                sx={{ bgcolor: background ? background : "", width: width }}
             >
                 {menuItems.map((menuItem, index) => (
                     <MenuItem key={`${menuItem}-${index}`} value={menuItem}>
