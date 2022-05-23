@@ -136,7 +136,8 @@ const ProposeArticle = () => {
         >
             <Box
                 sx={{
-                    width: "400px",
+                    width: "100%",
+                    maxWidth: "400px",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "stretch",
