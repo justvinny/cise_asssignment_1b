@@ -49,7 +49,16 @@ const ViewArticle = () => {
   };
 
   return (
-    <Box sx={{ bgcolor: "#fff", margin: "12px", padding: "8px" }}>
+    <Box
+      sx={{
+        bgcolor: "#fff",
+        margin: "12px",
+        padding: "16px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <h1>View Articles</h1>
       <Box>
         <Dropdown

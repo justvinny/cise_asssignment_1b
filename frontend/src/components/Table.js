@@ -8,9 +8,15 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Link,
+  List,
   Box,
+  ListItem,
   Typography,
   Modal,
+  Card,
+  CardContent,
+  CardActions,
 } from "@mui/material";
 
 const ArticleTable = ({ data, columns }) => {
@@ -64,6 +70,10 @@ const ArticleTable = ({ data, columns }) => {
                 <ArticleSummary
                   title={selectedArticle.title}
                   authors={selectedArticle.authors}
+                  source={selectedArticle.source}
+                  pubyear={selectedArticle.pubyear}
+                  doi={selectedArticle.doi}
+                  claims={selectedArticle.claim}
                 />
               ) : (
                 <div>nothing to show</div>
@@ -109,16 +119,55 @@ const ArticleTable = ({ data, columns }) => {
   );
 };
 
-const ArticleSummary = ({ title, authors }) => {
+const ArticleSummary = ({ title, authors, source, pubyear, doi, claims }) => {
   return (
-    <Box sx={popupStyle}>
-      <Typography id="modal-modal-title" variant="h6" component="h2">
-        {title}
-      </Typography>
-      <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-        {authors}
-      </Typography>
-    </Box>
+    <Card sx={popupStyle}>
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {title}
+        </Typography>
+        <Typography gutterBottom variant="h7" component="div">
+          written by {authors} | {pubyear}, {source}
+        </Typography>
+        {/* claims */}
+        <Box style={{ marginTop: 24 }}>
+          <Typography variant="h7">Claims</Typography>
+          <Paper style={{ maxHeight: 200, overflow: "auto", margin: 10 }}>
+            <List>
+              {claims ? (
+                claims.map((claim) => {
+                  return <ListItem>{claim}</ListItem>;
+                })
+              ) : (
+                <ListItem>No claims to show</ListItem>
+              )}
+            </List>
+          </Paper>
+        </Box>
+      </CardContent>
+      <CardActions>
+        <Link href={doi} color="text.secondary">
+          {doi}
+        </Link>
+      </CardActions>
+    </Card>
+    // <Box sx={popupStyle}>
+    //   <Typography id="modal-modal-title" variant="h6" component="h2">
+    //     {title}
+    //   </Typography>
+    //   <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+    //     {authors}
+    //   </Typography>
+    //   <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+    //     {source}
+    //   </Typography>
+    //   <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+    //     {pubyear}
+    //   </Typography>
+    //   <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+    //     {doi}
+    //   </Typography>
+    // </Box>
   );
 };
 
@@ -127,7 +176,7 @@ const popupStyle = {
   top: "30%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 900,
   bgcolor: "background.paper",
   p: 4,
 };
