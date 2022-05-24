@@ -56,19 +56,32 @@ const ProposeArticle = () => {
             sepractice: selectedPractice,
         };
         clearFields();
-        addArticle(article)
-            .then((data) => {
-                setFeedback(data.data.msg);
-                setIsFeedbackError(false);
-            })
-            .catch((error) => {
-                setFeedback(error);
-                setIsFeedbackError(true);
-            })
-            .finally(() => {
-                setFeedbackOpen(true);
-                setIsLoading(false);
-            });
+
+        if (
+            title !== "" &&
+            authors !== "" &&
+            source !== "" &&
+            publicationYear !== "" &&
+            doi !== ""
+        ) {
+            addArticle(article)
+                .then((data) => {
+                    setFeedback(data.data.msg);
+                    setIsFeedbackError(false);
+                })
+                .catch((error) => {
+                    setFeedback(error);
+                    setIsFeedbackError(true);
+                })
+                .finally(() => {
+                    setFeedbackOpen(true);
+                    setIsLoading(false);
+                });
+        } else {
+            setFeedback("All fields must not be empty");
+            setIsFeedbackError(true);
+            setFeedbackOpen(true);
+        }
     };
 
     /**
@@ -123,7 +136,8 @@ const ProposeArticle = () => {
         >
             <Box
                 sx={{
-                    width: "400px",
+                    width: "100%",
+                    maxWidth: "400px",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "stretch",
@@ -131,6 +145,7 @@ const ProposeArticle = () => {
                         marginBottom: "12px",
                     },
                 }}
+                data-testid="propose-article-form"
             >
                 <Typography
                     variant="h4"
@@ -176,9 +191,10 @@ const ProposeArticle = () => {
                 />
                 <Dropdown
                     menuItems={practices}
-                    selectedPractice={selectedPractice}
-                    setSelectedPractice={setSelectedPractice}
+                    selected={selectedPractice}
+                    setSelected={setSelectedPractice}
                     isLoading={isLoading}
+                    label="Select SE Practice"
                 />
                 <CustomButton
                     label="Submit Article"

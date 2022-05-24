@@ -63,9 +63,10 @@ const ViewArticle = () => {
       <Box>
         <Dropdown
           menuItems={practices}
-          selectedPractice={selectedPractice}
-          setSelectedPractice={handleSelectPractice}
+          selected={selectedPractice}
+          setSelected={handleSelectPractice}
           isLoading={isLoading}
+          label="SE Pracices"
         />
         <ArticleTable data={articles} columns={tablecolumns} />
       </Box>

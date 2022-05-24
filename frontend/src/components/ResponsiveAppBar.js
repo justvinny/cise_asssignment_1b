@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
     AppBar,
     Box,
@@ -13,16 +13,28 @@ import {
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { CurrentUrlContext } from "../context/CurrentUrlContext";
+import Dropdown from "./Dropdown";
+import { CurrentUserContext } from "../context/CurrentUserContext";
 
-const pages = [
-    { title: "Home", url: "/" },
-    { title: "Propose Article", url: "propose-article" },
-    { title: "View Articles", url: "view-article" },
+const pagesData = [
+    { title: "Home", url: "/", userType: "all" },
+    { title: "Propose Article", url: "propose-article", userType: "all" },
+    { title: "View Articles", url: "view-article", userType: "all" },
+    {
+        title: "Moderate Articles",
+        url: "moderate-article",
+        userType: "moderator",
+    },
+    { title: "Analyse Articles", url: "analyse-article", userType: "analyst" },
 ];
+
+const userTypes = ["User", "Moderator", "Analyst"];
 
 const ResponsiveAppBar = () => {
     // States
+    const [currentUser, setCurrentUser] = useContext(CurrentUserContext);
     const [selectedPage, setSelectedPage] = useContext(CurrentUrlContext);
+    const [pages, setPages] = useState(pagesData);
     const [anchorElNav, setAnchorElNav] = useState(null);
     const navigate = useNavigate();
 
@@ -69,6 +81,28 @@ const ResponsiveAppBar = () => {
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
+
+    /**
+     * Dynamically change the menu items based on user type.
+     */
+    useEffect(() => {
+        openMenuLink("/")();
+        switch (currentUser) {
+            case "Moderator":
+                setPages(
+                    pagesData.filter((page) => page.userType !== "analyst")
+                );
+                break;
+            case "Analyst":
+                setPages(
+                    pagesData.filter((page) => page.userType !== "moderator")
+                );
+                break;
+            default:
+                setPages(pagesData.filter((page) => page.userType === "all"));
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentUser]);
 
     return (
         <AppBar position="static" sx={{ bgcolor: "#111" }}>
@@ -126,6 +160,16 @@ const ResponsiveAppBar = () => {
                                 display: { xs: "block", md: "none" },
                             }}
                         >
+                            <MenuItem>
+                                <Dropdown
+                                    menuItems={userTypes}
+                                    selected={currentUser}
+                                    setSelected={setCurrentUser}
+                                    isLoading={false}
+                                    background="#fff"
+                                    width="150px"
+                                />
+                            </MenuItem>
                             {pages.map((page) => (
                                 <MenuItem
                                     key={`${page.title}-1`}
@@ -177,8 +221,10 @@ const ResponsiveAppBar = () => {
                                 md: "flex",
                                 flexDirection: "row",
                                 justifyContent: "flex-end",
+                                alignItems: "stretch",
                             },
                         }}
+                        data-testid="menu-items"
                     >
                         {pages.map((page) => (
                             <Button
@@ -192,11 +238,22 @@ const ResponsiveAppBar = () => {
                                     textTransform: "none",
                                     fontWeight: "900",
                                     ":hover": { bgcolor: "#09f" },
+                                    ":nth-last-of-type(1)": {
+                                        marginRight: "8px",
+                                    },
                                 }}
                             >
                                 {page.title}
                             </Button>
                         ))}
+                        <Dropdown
+                            menuItems={userTypes}
+                            selected={currentUser}
+                            setSelected={setCurrentUser}
+                            isLoading={false}
+                            background="#fff"
+                            width="150px"
+                        />
                     </Box>
                 </Toolbar>
             </Container>
