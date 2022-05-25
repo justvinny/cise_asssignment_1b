@@ -24,10 +24,6 @@ const ViewArticle = () => {
 
   useEffect(() => {
     setSelectedUrl("view-article");
-  }, [setSelectedUrl]);
-
-  useEffect(() => {
-    setSelectedUrl("propose-article");
     getPractices()
       .then((data) => {
         const practices = data.map((practice) => practice.practice);
@@ -66,7 +62,7 @@ const ViewArticle = () => {
           selected={selectedPractice}
           setSelected={handleSelectPractice}
           isLoading={isLoading}
-          label="SE Pracices"
+          label="SE Practices"
         />
         <ArticleTable data={articles} columns={tablecolumns} />
       </Box>

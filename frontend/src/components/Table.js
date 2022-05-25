@@ -23,10 +23,7 @@ const ArticleTable = ({ data, columns }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setModalOpen] = React.useState(false);
-
   const [selectedArticle, setSelectedArticle] = React.useState(null);
-
-  const ref = React.useRef();
 
   const handleChangePage = (newPage) => {
     setPage(newPage);
@@ -151,23 +148,6 @@ const ArticleSummary = ({ title, authors, source, pubyear, doi, claims }) => {
         </Link>
       </CardActions>
     </Card>
-    // <Box sx={popupStyle}>
-    //   <Typography id="modal-modal-title" variant="h6" component="h2">
-    //     {title}
-    //   </Typography>
-    //   <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-    //     {authors}
-    //   </Typography>
-    //   <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-    //     {source}
-    //   </Typography>
-    //   <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-    //     {pubyear}
-    //   </Typography>
-    //   <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-    //     {doi}
-    //   </Typography>
-    // </Box>
   );
 };
 
