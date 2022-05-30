@@ -30,7 +30,9 @@ describe("Test POST /api/articles", () => {
             "doi": "https://doi.org/23.4242/41241555.4214242",
             "claim": "good code quality",
             "evidence": "good support",
-            "sepractice": "TDD"
+            "sepractice": "TDD",
+            "moderated": false,
+            "approved": false
         }
 
         request(SERVER_URL)

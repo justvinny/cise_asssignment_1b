@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const practiceSchema = new mongoose.Schema({
-    practice: String
+  practice: { type: String, required: true },
 });
 
 const Practice = mongoose.model("Practice", practiceSchema);

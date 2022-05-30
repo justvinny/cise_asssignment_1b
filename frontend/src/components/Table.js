@@ -89,17 +89,17 @@ const ArticleTable = ({ data, columns, isModerator = false }) => {
                     onClick={() => handleOnModalOpen(row)}
                   >
                     {columns.map((column) => {
-                      const value = row[column.id];
-                      if (value !== undefined) {
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {value}
-                          </TableCell>
-                        );
-                      } else {
-                        <></>;
-                      }
-                    })}
+                        const value = row[column.id];
+                        if (value !== undefined) {
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              {value}
+                            </TableCell>
+                          );
+                        } else {
+                          return <></>;
+                        }
+                      })}
                     {isModerator ? (
                       <TableCell align="right">
                         <Button variant="contained" sx={{ marginRight: "8px" }}>
