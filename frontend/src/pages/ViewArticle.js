@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Box } from "@mui/material";
+import { Autocomplete, Box, Grid, TextField } from "@mui/material";
 import { CurrentUrlContext } from "../context/CurrentUrlContext";
 import Dropdown from "../components/Dropdown";
 import ArticleTable from "../components/Table";
@@ -44,6 +44,27 @@ const ViewArticle = () => {
     });
   };
 
+  const searchPractice = (article) => {
+    if (!article) {
+      getArticle()
+      .then(({ data }) => {
+        setArticles(
+          data.filter((data) => data.sepractice === selectedPractice)
+        );
+      })
+      .catch((error) => {
+        console.error(error)
+      });
+    } else {
+      getArticle()
+      .then(({ data }) => {
+        setArticles(data.filter((data) => data.title === article));
+      })
+      .catch((error) => {
+        console.error(error)
+      });
+    }
+  };
   return (
     <Box
       sx={{
@@ -57,14 +78,32 @@ const ViewArticle = () => {
     >
       <h1>View Articles</h1>
       <Box>
-        <Dropdown
-          menuItems={practices}
-          selected={selectedPractice}
-          setSelected={handleSelectPractice}
-          isLoading={isLoading}
-          label="SE Practices"
-        />
-        <ArticleTable data={articles} columns={tablecolumns} />
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Dropdown
+              menuItems={practices}
+              selected={selectedPractice}
+              setSelected={handleSelectPractice}
+              isLoading={isLoading}
+              label="SE Practices"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Autocomplete
+              id="article-search"
+              options={articles.map((option) => option.title)}
+              renderInput={(params) => (
+                <TextField {...params} label="Search Articles" />
+              )}
+              onChange={(event, newInputValue) => {
+                searchPractice(newInputValue);
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <ArticleTable data={articles} columns={tablecolumns} />
+          </Grid>
+        </Grid>
       </Box>
     </Box>
   );
