@@ -1,18 +1,27 @@
 import { Button } from "@mui/material";
 
-const CustomButton = ({ label, onClick, isLoading }) => (
-    <Button
-        variant="contained"
-        size="large"
-        sx={{
-            bgcolor: "#111",
-            ":hover": { bgcolor: "#111", opacity: 0.8 },
-        }}
-        onClick={onClick}
-        disabled={isLoading}
-    >
-        {label}
-    </Button>
+const CustomButton = ({
+  label,
+  onClick,
+  isLoading = false,
+  bgcolor = "#111",
+  margin = "0px",
+}) => (
+  <Button
+    variant="contained"
+    size="large"
+    sx={{
+      margin,
+      bgcolor,
+      textTransform: "capitalize",
+      fontWeight: "bold",
+      ":hover": { bgcolor, opacity: 0.8 },
+    }}
+    onClick={onClick}
+    disabled={isLoading}
+  >
+    {label}
+  </Button>
 );
 
 export default CustomButton;
