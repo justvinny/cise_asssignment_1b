@@ -17,9 +17,10 @@ import {
   Card,
   CardContent,
   CardActions,
+  Button,
 } from "@mui/material";
 
-const ArticleTable = ({ data, columns }) => {
+const ArticleTable = ({ data, columns, isModerator = false }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setModalOpen] = React.useState(false);
@@ -89,14 +90,28 @@ const ArticleTable = ({ data, columns }) => {
                   >
                     {columns.map((column) => {
                       const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
+                      if (value !== undefined) {
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {value}
+                          </TableCell>
+                        );
+                      } else {
+                        <></>;
+                      }
                     })}
+                    {isModerator ? (
+                      <TableCell align="right">
+                        <Button variant="contained" sx={{ marginRight: "8px" }}>
+                          Accept
+                        </Button>
+                        <Button variant="outlined" color="error">
+                          Reject
+                        </Button>
+                      </TableCell>
+                    ) : (
+                      <></>
+                    )}
                   </TableRow>
                 );
               })}

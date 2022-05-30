@@ -6,7 +6,7 @@ import ArticleTable from "../components/Table";
 
 import { getPractices } from "../services/practicesService";
 import { getArticle } from "../services/articlesService";
-import tablecolumns from "../components/tableColumns";
+import { tablecolumns } from "../components/tableColumns";
 
 const ViewArticle = () => {
   // Current URL state
