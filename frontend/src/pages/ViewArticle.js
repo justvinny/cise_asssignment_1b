@@ -46,18 +46,25 @@ const ViewArticle = () => {
 
   const searchPractice = (article) => {
     if (!article) {
-      getArticle().then(({ data }) => {
+      getArticle()
+      .then(({ data }) => {
         setArticles(
           data.filter((data) => data.sepractice === selectedPractice)
         );
+      })
+      .catch((error) => {
+        console.error(error)
       });
     } else {
-      getArticle().then(({ data }) => {
+      getArticle()
+      .then(({ data }) => {
         setArticles(data.filter((data) => data.title === article));
+      })
+      .catch((error) => {
+        console.error(error)
       });
     }
   };
-
   return (
     <Box
       sx={{
