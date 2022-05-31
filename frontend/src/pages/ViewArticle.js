@@ -6,7 +6,7 @@ import ArticleTable from "../components/Table";
 
 import { getPractices } from "../services/practicesService";
 import { getArticle } from "../services/articlesService";
-import tablecolumns from "../components/tableColumns";
+import { tablecolumns } from "../components/tableColumns";
 
 const ViewArticle = () => {
   // Current URL state
@@ -28,6 +28,7 @@ const ViewArticle = () => {
       .then((data) => {
         const practices = data.map((practice) => practice.practice);
         setPractices(practices);
+        handleSelectPractice(practices[0]);
       })
       .catch((error) => {
         console.error(error);
@@ -40,7 +41,12 @@ const ViewArticle = () => {
   const handleSelectPractice = (practice) => {
     setSelectedPractice(practice);
     getArticle().then(({ data }) => {
-      setArticles(data.filter((data) => data.sepractice === practice));
+      setArticles(
+        data.filter(
+          (data) =>
+            data.sepractice === practice && data.moderated && data.approved
+        )
+      );
     });
   };
 

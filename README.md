@@ -32,7 +32,9 @@ pubyear: Number,
 doi: String,
 claim: String,
 evidence: String,
-sepractice: String
+sepractice: String,
+moderated: Boolean,
+approved: Boolean
 ```
 
 2. Practice
