@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-sparse-arrays
-export const tablecolumns = [
+export const tableColumns = [
   {
     id: "title",
     label: "Title",
@@ -38,10 +38,21 @@ export const tablecolumns = [
 ];
 
 export const moderatorTableColumns = [
-  ...tablecolumns,
+  ...tableColumns,
   {
-    id: "Action",
+    id: "action",
     label: "Action",
+    minWidth: 170,
+    align: "right",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+];
+
+export const analystTableColumns = [
+  ...tableColumns,
+  {
+    id: "review",
+    label: "Review",
     minWidth: 170,
     align: "right",
     format: (value) => value.toLocaleString("en-US"),
