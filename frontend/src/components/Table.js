@@ -21,11 +21,11 @@ import {
 
 const ArticleTable = ({ data, columns }) => {
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [open, setModalOpen] = React.useState(false);
   const [selectedArticle, setSelectedArticle] = React.useState(null);
 
-  const handleChangePage = (newPage) => {
+  const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
@@ -104,7 +104,7 @@ const ArticleTable = ({ data, columns }) => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
         component="div"
         count={data.length}
         rowsPerPage={rowsPerPage}
@@ -150,6 +150,8 @@ const ArticleSummary = ({ title, authors, source, pubyear, doi, claims }) => {
     </Card>
   );
 };
+
+
 
 const popupStyle = {
   position: "absolute",
