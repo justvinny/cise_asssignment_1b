@@ -6,7 +6,7 @@ import ArticleTable from "../components/Table";
 
 import { getPractices } from "../services/practicesService";
 import { getArticle } from "../services/articlesService";
-import { tablecolumns } from "../components/tableColumns";
+import { tableColumns } from "../components/tableColumns";
 
 const ViewArticle = () => {
   // Current URL state
@@ -53,22 +53,22 @@ const ViewArticle = () => {
   const searchPractice = (article) => {
     if (!article) {
       getArticle()
-      .then(({ data }) => {
-        setArticles(
-          data.filter((data) => data.sepractice === selectedPractice)
-        );
-      })
-      .catch((error) => {
-        console.error(error)
-      });
+        .then(({ data }) => {
+          setArticles(
+            data.filter((data) => data.sepractice === selectedPractice)
+          );
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     } else {
       getArticle()
-      .then(({ data }) => {
-        setArticles(data.filter((data) => data.title === article));
-      })
-      .catch((error) => {
-        console.error(error)
-      });
+        .then(({ data }) => {
+          setArticles(data.filter((data) => data.title === article));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
   };
   return (
@@ -107,7 +107,7 @@ const ViewArticle = () => {
             />
           </Grid>
           <Grid item xs={12}>
-            <ArticleTable data={articles} columns={tablecolumns} />
+            <ArticleTable data={articles} columns={tableColumns} />
           </Grid>
         </Grid>
       </Box>

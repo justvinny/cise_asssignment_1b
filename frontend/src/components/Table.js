@@ -18,6 +18,8 @@ import {
   CardContent,
   CardActions,
   DialogContent,
+  ButtonBase,
+  TextField,
 } from "@mui/material";
 import CustomButton from "./CustomButton";
 
@@ -27,6 +29,7 @@ const ArticleTable = ({
   handleAccept,
   handleReject,
   isModerator = false,
+  isAnalyst = false,
   moderationLoading = false,
 }) => {
   const [page, setPage] = React.useState(0);
@@ -43,10 +46,59 @@ const ArticleTable = ({
     setPage(0);
   };
 
+  const openModal = (row) => {
+    setModalOpen(true);
+    setSelectedArticle(row);
+  };
+
   const handleOnModalOpen = (row) => {
-    if (!isModerator) {
-      setModalOpen(true);
-      setSelectedArticle(row);
+    if (!isModerator && !isAnalyst) {
+      openModal(row);
+    }
+  };
+
+  const handleReviewModalOpen = (row) => () => {
+    openModal(row);
+  };
+
+  const renderDynamicCells = (row) => {
+    if (isModerator) {
+      return (
+        <TableCell align="right">
+          <CustomButton
+            label="Accept"
+            bgcolor="#09f"
+            onClick={handleAccept(row._id)}
+            isLoading={moderationLoading}
+          />
+          <CustomButton
+            label="Reject"
+            bgcolor="#fc3730"
+            margin="0px 0px 0px 8px"
+            onClick={handleReject(row._id)}
+            isLoading={moderationLoading}
+          />
+        </TableCell>
+      );
+    } else if (isAnalyst) {
+      return (
+        <TableCell align="right">
+          <ButtonBase onClick={handleReviewModalOpen(row)}>
+            <Typography
+              variant="body2"
+              sx={{
+                marginLeft: "8px",
+                color: "#09f",
+                ":hover": { textDecoration: "underline" },
+              }}
+            >
+              View
+            </Typography>
+          </ButtonBase>
+        </TableCell>
+      );
+    } else {
+      return <></>;
     }
   };
 
@@ -74,7 +126,15 @@ const ArticleTable = ({
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <DialogContent>
+              <DialogContent
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "fit-content",
+                  margin: "60px auto 0px auto",
+                }}
+              >
                 {selectedArticle ? (
                   <ArticleSummary
                     title={selectedArticle.title}
@@ -84,6 +144,7 @@ const ArticleTable = ({
                     doi={selectedArticle.doi}
                     claim={selectedArticle.claim}
                     evidence={selectedArticle.evidence}
+                    isAnalyst={isAnalyst}
                   />
                 ) : (
                   <div>Nothing to show</div>
@@ -115,25 +176,7 @@ const ArticleTable = ({
                         );
                       }
                     })}
-                    {isModerator ? (
-                      <TableCell align="right">
-                        <CustomButton
-                          label="Accept"
-                          bgcolor="#09f"
-                          onClick={handleAccept(row._id)}
-                          isLoading={moderationLoading}
-                        />
-                        <CustomButton
-                          label="Reject"
-                          bgcolor="#fc3730"
-                          margin="0px 0px 0px 8px"
-                          onClick={handleReject(row._id)}
-                          isLoading={moderationLoading}
-                        />
-                      </TableCell>
-                    ) : (
-                      <></>
-                    )}
+                    {renderDynamicCells(row)}
                   </TableRow>
                 );
               })}
@@ -153,57 +196,78 @@ const ArticleTable = ({
   );
 };
 
-const ArticleSummary = React.forwardRef((props, ref) => {
-  const { title, authors, source, pubyear, doi, claim, evidence } = props;
-  return (
-    <Card sx={popupStyle} ref={ref}>
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {title}
-        </Typography>
-        <Typography gutterBottom variant="h7" component="div">
-          written by {authors} | {pubyear}, {source}
-        </Typography>
-        {/* claims */}
-        <Box style={{ marginTop: 24 }}>
-          <Typography variant="h7">Claim</Typography>
-          <Paper style={{ maxHeight: 200, overflow: "auto", margin: 10 }}>
-            <List>
-              {claim !== undefined ? (
-                <ListItem>{claim}</ListItem>
-              ) : (
-                <ListItem>No claim to show</ListItem>
-              )}
-            </List>
-          </Paper>
-        </Box>
-        <Box style={{ marginTop: 24 }}>
-          <Typography variant="h7">Evidence</Typography>
-          <Paper style={{ maxHeight: 200, overflow: "auto", margin: 10 }}>
-            <List>
-              {evidence !== undefined ? (
-                <ListItem>{evidence}</ListItem>
-              ) : (
-                <ListItem>No evidence to show</ListItem>
-              )}
-            </List>
-          </Paper>
-        </Box>
-      </CardContent>
-      <CardActions>
-        <Link href={doi} color="text.secondary">
-          {doi}
-        </Link>
-      </CardActions>
-    </Card>
-  );
-});
+const ArticleSummary = React.forwardRef(
+  (
+    { title, authors, source, pubyear, doi, claim, evidence, isAnalyst },
+    ref
+  ) => {
+    const dynamicallyRenderListItem = (text) => {
+      if (isAnalyst) {
+        return <TextField sx={{ width: "100%" }} variant="outlined" />;
+      }
+
+      return (
+        <Paper style={{ maxHeight: 200, overflow: "auto", margin: 10 }}>
+          <ListItem>{text !== undefined ? text : "Nothing to show."}</ListItem>
+        </Paper>
+      );
+    };
+
+    const dynamicallyRenderButtons = () => {
+      if (isAnalyst) {
+        return (
+          <Box>
+            <CustomButton
+              label="Reject"
+              bgcolor="#fc3730"
+              margin="0px 8px 0px 0px"
+            />
+            <CustomButton label="Approve" />
+          </Box>
+        );
+      }
+      return <></>;
+    };
+    return (
+      <Card sx={popupStyle} ref={ref}>
+        <CardContent sx={{ width: "100%", padding: "0px" }}>
+          <Typography gutterBottom variant="h5" component="div">
+            {title}
+          </Typography>
+          <Typography gutterBottom variant="h7" component="div">
+            written by {authors} | {pubyear}, {source}
+          </Typography>
+          {/* claims */}
+          <Box style={{ marginTop: 24 }}>
+            <Typography variant="h7">Claim</Typography>
+            <List>{dynamicallyRenderListItem(claim)}</List>
+          </Box>
+          <Box style={{ marginTop: 24 }}>
+            <Typography variant="h7">Evidence</Typography>
+            <List>{dynamicallyRenderListItem(evidence)}</List>
+          </Box>
+        </CardContent>
+        <CardActions
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "100%",
+            padding: "0px",
+            marginTop: "12px",
+          }}
+        >
+          <Link href={doi} color="text.secondary">
+            {doi}
+          </Link>
+          {dynamicallyRenderButtons()}
+        </CardActions>
+      </Card>
+    );
+  }
+);
 
 const popupStyle = {
-  position: "absolute",
-  top: "30%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
   width: 900,
   bgcolor: "background.paper",
   p: 4,
