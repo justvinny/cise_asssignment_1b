@@ -25,6 +25,7 @@ const Home = () => {
           src="developers.png"
           width={"90%"}
           style={{ margin: "0px auto" }}
+          alt="Team 6 Developers"
         />
       </Box>
     </Box>
